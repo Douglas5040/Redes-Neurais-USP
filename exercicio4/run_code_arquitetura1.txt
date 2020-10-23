@@ -1,0 +1,44 @@
+CONJUNTO DE DADOS: (60000, 28, 28, 1)
+TREINAMENTO:  60000
+TESTE:  10000
+2018-10-12 19:33:10.063735: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2
+2018-10-12 19:33:10.326044: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1411] Found device 0 with properties:
+name: GeForce GTX 1050 Ti major: 6 minor: 1 memoryClockRate(GHz): 1.392
+pciBusID: 0000:01:00.0
+totalMemory: 4.00GiB freeMemory: 3.29GiB
+2018-10-12 19:33:10.330179: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1490] Adding visible gpu devices: 0
+2018-10-12 19:33:11.108008: I tensorflow/core/common_runtime/gpu/gpu_device.cc:971] Device interconnect StreamExecutor with strength 1 edge matrix:
+2018-10-12 19:33:11.109924: I tensorflow/core/common_runtime/gpu/gpu_device.cc:977]      0
+2018-10-12 19:33:11.111053: I tensorflow/core/common_runtime/gpu/gpu_device.cc:990] 0:   N
+2018-10-12 19:33:11.112291: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1103] Created TensorFlow device (/job:localhost/replica:0/task:0/device:GPU:0 with 3007 MB memory) -> physical GPU (device: 0, name: GeForce GTX 1050 Ti, pci bus id: 0000:01:00.0, compute capability: 6.1)
+Train on 60000 samples, validate on 10000 samples
+Epoch 1/10
+60000/60000 [==============================] - 15s 258us/step - loss: 1.0158 - acc: 0.6613 - val_loss: 0.2121 - val_acc: 0.9328
+Epoch 2/10
+60000/60000 [==============================] - 14s 227us/step - loss: 0.2564 - acc: 0.9220 - val_loss: 0.1199 - val_acc: 0.9611
+Epoch 3/10
+60000/60000 [==============================] - 14s 227us/step - loss: 0.1786 - acc: 0.9468 - val_loss: 0.0948 - val_acc: 0.9711
+Epoch 4/10
+60000/60000 [==============================] - 14s 225us/step - loss: 0.1387 - acc: 0.9577 - val_loss: 0.0783 - val_acc: 0.9754
+Epoch 5/10
+60000/60000 [==============================] - 13s 224us/step - loss: 0.1174 - acc: 0.9650 - val_loss: 0.0730 - val_acc: 0.9780
+Epoch 6/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.1027 - acc: 0.9691 - val_loss: 0.0656 - val_acc: 0.9796
+Epoch 7/10
+60000/60000 [==============================] - 13s 222us/step - loss: 0.0958 - acc: 0.9716 - val_loss: 0.0570 - val_acc: 0.9844
+Epoch 8/10
+60000/60000 [==============================] - 13s 223us/step - loss: 0.0842 - acc: 0.9743 - val_loss: 0.0521 - val_acc: 0.9855
+Epoch 9/10
+60000/60000 [==============================] - 13s 224us/step - loss: 0.0783 - acc: 0.9762 - val_loss: 0.0599 - val_acc: 0.9826
+Epoch 10/10
+60000/60000 [==============================] - 13s 224us/step - loss: 0.0732 - acc: 0.9778 - val_loss: 0.0523 - val_acc: 0.9851
+% DE PERDA: 5.234384370445041
+% DE ACURÁCIA: 98.50999999999999
+SAÍDA DESEJADA 4
+SAÍDA 4
+SAÍDA DESEJADA 5
+SAÍDA 5
+SAÍDA DESEJADA 8
+SAÍDA 8
+SAÍDA DESEJADA 9
+SAÍDA 9
