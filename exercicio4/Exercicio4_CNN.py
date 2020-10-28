@@ -123,7 +123,7 @@ model.add(Dropout(0.5))
 #Flatten
 model.add(Flatten())
 
-#Camadas totalmente conectadas
+#Aqui estamos adicionando camadas totalmente conectadas
 model.add(Dense(2048, activation='relu'))
 model.add(Dense(2048, activation='relu'))
 model.add(Dropout(0.5))
@@ -156,7 +156,7 @@ digitos_teste = [2,9,4,1]
 for i in digitos_teste:
 
     try:
-        img = cv2.imread('fotos_numeros/'+str(i)+'.jpeg',0)
+        img = cv2.imread('fotos_numeros/'+str(i)+'.jpg',0)
         kernel = np.ones((5,5), np.uint8)
         # Aqui estamos fazendo a aplicação de erosão e dilatação na imagem, para assim retirar os ruídos e realçar as características principais
         opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
