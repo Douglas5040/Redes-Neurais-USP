@@ -10,6 +10,7 @@ Dheniffer Caroline Araújo Pessoa - Nº USP - 12116252
 Douglas Queiroz Galucio Batista - Nº USP - 12114819
 Laleska Aparecida Ferreira Mesquita Nº USP - 12116738'''
 
+
 #Importação das bibliotecas necessárias
 import tensorflow as tf
 import keras
@@ -37,7 +38,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 batch_size = 512
 num_classes = 10
 epocas = 10
-memory_limit=2048  #Estamos colocando esse limite de memória pelo motivo da GPU ser usada no computador para GUI e outros
+memory_limit=2048 #Estamos colocando esse limite de memória pelo motivo da GPU ser usada no computador para GUI e outros
 
 #Dimensões da imagem
 linhas, colunas = 28, 28
@@ -48,12 +49,13 @@ dados = mnist.load_data()
 #Aqui estamos fazendo a divisão entre treinamento e teste
 (x_treinamento, y_treinamento), (x_teste, y_teste) = dados
 
+
 #Aqui estamos declarando o redimensionamento das bases de treinamento e teste
 x_treinamento = x_treinamento.reshape(x_treinamento.shape[0], linhas, colunas, 1)
 x_teste = x_teste.reshape(x_teste.shape[0], linhas, colunas, 1)
 input_shape = (linhas, colunas, 1)
 
-#Normalização
+#Normalizando
 x_treinamento = x_treinamento.astype('float32')
 x_teste = x_teste.astype('float32')
 x_treinamento /= 255
@@ -103,14 +105,14 @@ model.add(Conv2D(128, kernel_size=(5, 5),
                  input_shape=input_shape))
 model.add(Conv2D(128, (5, 5), activation='relu'))
 #MaxPooling2D
-#Extração de características: Polling
+#Aqui estamos fazendo a extração de características: Polling
 model.add(MaxPooling2D(pool_size=(2, 2)))
-#Camadas Convolucionais
+#Camadas convolucionais
 model.add(Conv2D(256, (2, 2), activation='relu'))
 model.add(Conv2D(256, (2, 2), activation='relu'))
 #MaxPooling2D
 model.add(MaxPooling2D(pool_size=(2, 2)))
-#Camadas Convolucionais
+#Camadas convolucionais
 model.add(Conv2D(512, (2, 2), activation='relu'))
 model.add(Conv2D(512, (2, 2), activation='relu'))
 #MaxPooling2D
