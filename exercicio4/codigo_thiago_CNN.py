@@ -151,12 +151,15 @@ print('% DE ACURÁCIA:', score[1]*100)
 #Aqui estamos fazendo a leitura das fotos
 #As fotos estão sem ruídos
 
-digitos_teste = [4,5,8,9]
+digitos_teste = [1,2,4,9]
 
 for i in digitos_teste:
 
     try:
-        img = cv2.imread('fotos_digitos/'+str(i)+'.jpeg',0)
+        print('path: ', 'fotos_digitos/'+str(i)+'.jpg')
+        img = cv2.imread('fotos_digitos/'+str(i)+'.jpg',0)
+        print('Dados: ', img)
+
         kernel = np.ones((5,5), np.uint8)
         # Aqui estamos fazendo a aplicação de erosão e dilatação na imagem, para assim retirar os ruídos e realçar as características principais
         opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)

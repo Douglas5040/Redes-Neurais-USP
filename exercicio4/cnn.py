@@ -13,10 +13,6 @@ Laleska Aparecida Ferreira Mesquita Nº USP - 12116738'''
 #Importação das bibliotecas necessárias
 import tensorflow as tf
 import keras
-from keras.datasets import mnist
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Flatten
-from keras.layers import Conv2D, MaxPooling2D
 from keras.optimizers import Adam
 #Do Keras estamos importando o 'backend' e estamos dando o apelido de 'k'
 from tensorflow.compat.v1.keras import backend as K
@@ -28,6 +24,11 @@ import numpy as np
 from PIL import Image
 import sys
 import cv2
+import time
+import os
+
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
 print("----> Num GPUs Available: ", len(tf.config.experimental.list_physical_devices('GPU')))
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -43,7 +44,7 @@ memory_limit=2048  #Estamos colocando esse limite de memória pelo motivo da GPU
 linhas, colunas = 28, 28
 
 #Aqui estamos carregando a base de dados
-dados = mnist.load_data()
+dados = keras.datasets.mnist.load_data()
 
 #Aqui estamos fazendo a divisão entre treinamento e teste
 (x_treinamento, y_treinamento), (x_teste, y_teste) = dados
@@ -64,7 +65,6 @@ print('TREINAMENTO: ', x_treinamento.shape[0])
 print('TESTE: ', x_teste.shape[0])
 
 #GPU
-
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
   # Nesse método estamos restringindo o Tensorflow para alocar apenas 1 GB de memória na primeira GPU
@@ -83,51 +83,50 @@ config = ConfigProto()
 config.gpu_options.allow_growth = True
 session = InteractiveSession(config=config)
 K.set_session(session)
-#run_opts = tf.distribute.RunOptions(experimental_bucketizing_dynamic_shape = True)
-
-# config = ConfigProto()
-# config.gpu_options.visible_device_list = "0,1"
-# with tf.Session(config) as sess:
-#or K.set_session(tf.Session(config))
-#
 
 y_treinamento = keras.utils.to_categorical(y_treinamento, num_classes)
 y_teste = keras.utils.to_categorical(y_teste, num_classes)
 
 #CNN
-model = Sequential()
+model = keras.models.Sequential()
 
 #Camadas Convolucionais
-model.add(Conv2D(128, kernel_size=(5, 5),
+model.add(keras.layers.Conv2D(128, kernel_size=(5, 5),
                  activation='relu',
                  input_shape=input_shape))
-model.add(Conv2D(128, (5, 5), activation='relu'))
+model.add(keras.layers.Conv2D(128, (5, 5), activation='relu'))
+
 #MaxPooling2D
 #Extração de características: Polling
-model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
+
 #Camadas Convolucionais
-model.add(Conv2D(256, (2, 2), activation='relu'))
-model.add(Conv2D(256, (2, 2), activation='relu'))
+model.add(keras.layers.Conv2D(256, (2, 2), activation='relu'))
+model.add(keras.layers.Conv2D(256, (2, 2), activation='relu'))
+
 #MaxPooling2D
-model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
+
 #Camadas Convolucionais
-model.add(Conv2D(512, (2, 2), activation='relu'))
-model.add(Conv2D(512, (2, 2), activation='relu'))
+model.add(keras.layers.Conv2D(512, (2, 2), activation='relu'))
+model.add(keras.layers.Conv2D(512, (2, 2), activation='relu'))
+
 #MaxPooling2D
 #Aqui estamos fazendo a extração de características: Polling
-model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(keras.layers.MaxPooling2D(pool_size=(2, 2)))
+
 #Dropout
-model.add(Dropout(0.5))
-#Flatten
-model.add(Flatten())
+model.add(keras.layers.Dropout(0.5))
+#keras.layers.Flatten
+model.add(keras.layers.Flatten())
 
 #Aqui estamos adicionando camadas totalmente conectadas
-model.add(Dense(2048, activation='relu'))
-model.add(Dense(2048, activation='relu'))
-model.add(Dropout(0.5))
+model.add(keras.layers.Dense(2048, activation='relu'))
+model.add(keras.layers.Dense(2048, activation='relu'))
+model.add(keras.layers.Dropout(0.5))
 
 #Camada de saída
-model.add(Dense(num_classes, activation='softmax'))
+model.add(keras.layers.Dense(num_classes, activation='softmax'))
 
 #Aqui estamos fazendo o treinamento
 model.compile(loss='categorical_crossentropy',
@@ -149,12 +148,13 @@ print('% DE ACURÁCIA:', score[1]*100)
 #Aqui estamos fazendo a leitura das fotos
 #As fotos estão sem ruídos
 
-digitos_teste = [2,9,4,1]
+digitos_teste = [0,1,2,4,9]
 
 for i in digitos_teste:
 
     try:
         img = cv2.imread('fotos_numeros/'+str(i)+'.jpg',0)
+        img2 = mpimg.imread('fotos_numeros/'+str(i)+'.jpg',0)
         kernel = np.ones((5,5), np.uint8)
         # Aqui estamos fazendo a aplicação de erosão e dilatação na imagem, para assim retirar os ruídos e realçar as características principais
         opening = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
@@ -167,7 +167,9 @@ for i in digitos_teste:
         sys.exit(1)
 
     #Através disso é possível visualizar as modificações feitas pelo OpenCV
-    digito.show()
+    os.environ['DISPLAY'] = ':1'
+    #digito.show()
+    #time.sleep(2)
 
     #Normalização do teste
     digito = digito.resize((28, 28), Image.ANTIALIAS)
