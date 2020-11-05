@@ -37,7 +37,7 @@ tf.config.experimental.set_memory_growth(gpus[0], True)
 # Aqui estamos fazendo o pré-processamento de dados
 batch_size = 512
 num_classes = 10
-epocas = 10
+epocas = 1000
 memory_limit=2048  #Estamos colocando esse limite de memória pelo motivo da GPU ser usada no computador para GUI e outros
 
 #Dimensões da imagem
@@ -148,7 +148,16 @@ print('% DE ACURÁCIA:', score[1]*100)
 #Aqui estamos fazendo a leitura das fotos
 #As fotos estão sem ruídos
 
-digitos_teste = [0,1,2,4,9]
+digitos_teste = [0,1,2,3,4,5,6,8,9]
+
+#SALVANDO MODELO 
+# serialize model to JSON
+model_json = model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+# serialize weights to HDF5
+model.save_weights("modelo/model.h5")
+print("Saved model to disk")
 
 for i in digitos_teste:
 
@@ -174,9 +183,12 @@ for i in digitos_teste:
     #Normalização do teste
     digito = digito.resize((28, 28), Image.ANTIALIAS)
 
+    digito.show()
+    
     digito = np.array(digito)
 
     digito = digito.reshape(1, linhas, colunas, 1)
+    
 
     digito = digito.astype('float32')
     digito /= 255
